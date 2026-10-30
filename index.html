@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Dialer Dashboard</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased h-screen flex overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-slate-800 border-r border-slate-700 flex flex-col justify-between p-4 shrink-0">
+        <div>
+            <!-- Header/Logo -->
+            <div class="flex items-center gap-3 px-2 py-4 mb-6 border-b border-slate-700">
+                <div class="bg-blue-600 text-white p-2 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-robot text-xl"></i>
+                </div>
+                <h2 class="text-xl font-bold tracking-wide text-white">Johnzy AI</h2>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-1">
+                <button onclick="switchTab('dialer')" id="nav-dialer" class="tab-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-phone w-5 text-center"></i> <span>Dialer</span>
+                </button>
+                <button onclick="switchTab('contacts')" id="nav-contacts" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-address-book w-5 text-center"></i> <span>Contacts</span>
+                </button>
+                <button onclick="switchTab('messaging')" id="nav-messaging" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-comments w-5 text-center"></i> <span>Messaging</span>
+                </button>
+                <button onclick="switchTab('scripts')" id="nav-scripts" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-file-lines w-5 text-center"></i> <span>Scripts</span>
+                </button>
+                <button onclick="switchTab('transfer')" id="nav-transfer" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-arrow-right-arrow-left w-5 text-center"></i> <span>Transfer Settings</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="pt-4 border-t border-slate-700">
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-400 hover:bg-red-500/10 hover:text-red-400 rounded-xl transition-all">
+                <i class="fa-solid fa-right-from-bracket w-5 text-center"></i> <span>Sign out</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-8 bg-slate-950">
+
+        <!-- DIALER TAB -->
+        <section id="tab-dialer" class="tab-panel space-y-6">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-white">Dialer Dashboard</h1>
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Agent Ready (Ashley)
+                </span>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 mb-2">
+                        <span class="text-xs font-semibold uppercase tracking-wider">Calls Completed</span>
+                        <i class="fa-solid fa-phone-check text-blue-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-white">124</p>
+                    <span class="text-xs text-emerald-400 font-medium">+12% from yesterday</span>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 mb-2">
+                        <span class="text-xs font-semibold uppercase tracking-wider">Connect Rate</span>
+                        <i class="fa-solid fa-chart-line text-emerald-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-white">48.5%</p>
+                    <span class="text-xs text-emerald-400 font-medium">+3.2% performance boost</span>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 mb-2">
+                        <span class="text-xs font-semibold uppercase tracking-wider">Talk Time</span>
+                        <i class="fa-solid fa-clock text-purple-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-white">3h 42m</p>
+                    <span class="text-xs text-slate-400 font-medium">Avg session active</span>
+                </div>
+
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 mb-2">
+                        <span class="text-xs font-semibold uppercase tracking-wider">Avg. Handle Time</span>
+                        <i class="fa-solid fa-stopwatch text-amber-400"></i>
+                    </div>
+                    <p class="text-3xl font-bold text-white">1:48</p>
+                    <span class="text-xs text-slate-400 font-medium">Optimal resolution speed</span>
+                </div>
+            </div>
+
+            <!-- Active Call Card -->
+            <div class="bg-slate-800 rounded-2xl border border-slate-700 p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-5">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+                            JL
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">On Live Call</span>
+                                <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> 02:15</span>
+                            </div>
+                            <h2 class="text-2xl font-bold text-white">James Lamberth</h2>
+                            <p class="text-slate-400 text-sm"><i class="fa-solid fa-phone text-xs mr-1"></i> (434) 867-0843</p>
+                        </div>
+                    </div>
+
+                    <!-- Call Controls -->
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <button class="flex-1 md:flex-none px-5 py-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium flex items-center justify-center gap-2 transition border border-slate-600">
+                            <i class="fa-solid fa-arrow-right-from-bracket text-blue-400"></i> Transfer to Ashley
+                        </button>
+                        <button class="flex-1 md:flex-none px-5 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-medium flex items-center justify-center gap-2 transition shadow-lg shadow-red-600/30">
+                            <i class="fa-solid fa-phone-slash"></i> Hang Up
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTS TAB -->
+        <section id="tab-contacts" class="tab-panel hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-white">Contacts & Leads</h1>
+                <div>
+                    <!-- Hidden file input for importing leads -->
+                    <input type="file" id="leadFileInput" accept=".csv, .xlsx, .xls", .pdf" class="hidden" onchange="handleLeadImport(event)">
+                    
+                    <!-- Import Button -->
+                    <button onclick="document.getElementById('leadFileInput').click()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium flex items-center gap-2 shadow-md transition cursor-pointer">
+                        <i class="fa-solid fa-file-import"></i> Import Leads
+                    </button>
+                </div>
+            </div>
+
+            <!-- Import Feedback Alert -->
+            <div id="leadImportStatus" class="hidden bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl text-sm flex items-center gap-2">
+                <i class="fa-solid fa-circle-check"></i> <span id="leadImportMessage">Leads imported successfully!</span>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden">
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="bg-slate-900/50 text-slate-400 text-xs uppercase border-b border-slate-700">
+                        <tr>
+                            <th class="p-4"><input type="checkbox" class="rounded bg-slate-700 border-slate-600"></th>
+                            <th class="p-4">Name</th>
+                            <th class="p-4">Phone Number</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        <tr class="hover:bg-slate-700/30 transition">
+                            <td class="p-4"><input type="checkbox" class="rounded bg-slate-700 border-slate-600"></td>
+                            <td class="p-4 font-semibold text-white">James Lamberth</td>
+                            <td class="p-4">(434) 867-0843</td>
+                            <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400">Completed</span></td>
+                            <td class="p-4 text-right">
+                                <button class="text-blue-400 hover:text-blue-300 mr-2"><i class="fa-solid fa-phone"></i></button>
+                                <button class="text-slate-400 hover:text-slate-200"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-700/30 transition">
+                            <td class="p-4"><input type="checkbox" class="rounded bg-slate-700 border-slate-600"></td>
+                            <td class="p-4 font-semibold text-white">Sarah Jenkins</td>
+                            <td class="p-4">(512) 349-1102</td>
+                            <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400">Pending</span></td>
+                            <td class="p-4 text-right">
+                                <button class="text-blue-400 hover:text-blue-300 mr-2"><i class="fa-solid fa-phone"></i></button>
+                                <button class="text-slate-400 hover:text-slate-200"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MESSAGING TAB -->
+        <section id="tab-messaging" class="tab-panel hidden space-y-6">
+            <h1 class="text-2xl font-bold text-white">Messaging & SMS</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Messages Sent</span>
+                    <p class="text-2xl font-bold text-white mt-1">1,240</p>
+                </div>
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Delivered</span>
+                    <p class="text-2xl font-bold text-white mt-1">1,215</p>
+                </div>
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Delivery Rate</span>
+                    <p class="text-2xl font-bold text-white mt-1">98.0%</p>
+                </div>
+                <div class="bg-slate-800 p-5 rounded-2xl border border-slate-700">
+                    <span class="text-xs font-semibold text-slate-400 uppercase">Replies</span>
+                    <p class="text-2xl font-bold text-white mt-1">342</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-4">Quick SMS Campaign</h3>
+                <textarea class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-blue-500" rows="4" placeholder="Type your automated text message here..."></textarea>
+                <div class="mt-4 flex justify-end">
+                    <button class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Send Campaign
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCRIPTS TAB WITH FILE UPLOAD -->
+        <section id="tab-scripts" class="tab-panel hidden space-y-6">
+            <h1 class="text-2xl font-bold text-white">Call Scripts & Knowledge Base</h1>
+
+            <!-- File Upload Section -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-2">Upload Script File</h3>
+                <p class="text-slate-400 text-sm mb-4">Upload your prompt document, script, or database file (.txt, .pdf, .docx).</p>
+                
+                <div class="border-2 border-dashed border-slate-600 hover:border-blue-500 rounded-2xl p-8 text-center bg-slate-900/50 transition cursor-pointer" onclick="document.getElementById('scriptFileInput').click()">
+                    <i class="fa-solid fa-cloud-arrow-up text-4xl text-blue-400 mb-3"></i>
+                    <p class="text-slate-200 font-medium">Click to upload or drag and drop file here</p>
+                    <p class="text-slate-500 text-xs mt-1">Supports PDF, DOCX, TXT (Max 10MB)</p>
+                    <input type="file" id="scriptFileInput" accept=".txt,.docx,.pdf" class="hidden" onchange="handleFileUpload(event)">
+                </div>
+                <div id="fileUploadStatus" class="mt-3 text-sm font-medium text-emerald-400 hidden flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check"></i> <span id="fileName">File uploaded successfully!</span>
+                </div>
+            </div>
+
+            <!-- Manual Script Editor -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+                <h3 class="text-lg font-semibold text-white mb-3">Script Content Editor</h3>
+                <textarea id="scriptText" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-blue-500 font-mono text-sm" rows="10" placeholder="Paste your call script or AI instructions here..."></textarea>
+                <div class="mt-4 flex justify-end">
+                    <button class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition">
+                        <i class="fa-solid fa-floppy-disk mr-2"></i> Save Script
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSFER SETTINGS TAB -->
+        <section id="tab-transfer" class="tab-panel hidden space-y-6">
+            <h1 class="text-2xl font-bold text-white">Transfer Settings</h1>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-2xl">
+                <h3 class="text-lg font-semibold text-white mb-4">AI Agent & Forwarding Parameters</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">AI Agent Name</label>
+                        <input type="text" value="Ashley" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-400 mb-1">Transfer Phone Number</label>
+                        <div class="relative">
+                            <input type="text" value="18763047407" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-mono focus:outline-none focus:border-blue-500">
+                            <span class="absolute right-3 top-3 text-xs bg-slate-800 px-2 py-1 rounded text-slate-400">Format: 18763047407</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition">
+                            <i class="fa-solid fa-check mr-2"></i> Update Transfer Settings
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript Navigation & Functionality -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.add('hidden');
+            });
+
+            // Remove active styling from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/30');
+                btn.classList.add('text-slate-400');
+            });
+
+            // Show selected panel
+            const activePanel = document.getElementById(`tab-${tabId}`);
+            if (activePanel) {
+                activePanel.classList.remove('hidden');
+            }
+
+            // Highlight selected button
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/30');
+                activeNav.classList.remove('text-slate-400');
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const statusDiv = document.getElementById('fileUploadStatus');
+                const fileNameSpan = document.getElementById('fileName');
+                fileNameSpan.textContent = `Uploaded File: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                statusDiv.classList.remove('hidden');
+            }
+        }
+
+        function handleLeadImport(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const statusDiv = document.getElementById('leadImportStatus');
+                const messageSpan = document.getElementById('leadImportMessage');
+                
+                messageSpan.textContent = `Successfully imported leads from: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+                statusDiv.classList.remove('hidden');
+
+                // Auto-hide the success notification after 5 seconds
+                setTimeout(() => {
+                    statusDiv.classList.add('hidden');
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
