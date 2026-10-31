@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashley AI Outbound Dialer Dashboard</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased h-screen flex overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-slate-800 border-r border-slate-700 flex flex-col justify-between p-4 shrink-0">
+        <div>
+            <!-- Header/Logo -->
+            <div class="flex items-center gap-3 px-2 py-4 mb-6 border-b border-slate-700">
+                <div class="bg-blue-600 text-white p-2 rounded-lg flex items-center justify-center">
+                    <i class="fa-solid fa-robot text-xl"></i>
+                </div>
+                <h2 class="text-xl font-bold tracking-wide text-white">Johnzy AI</h2>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-1">
+                <button onclick="switchTab('dialer')" id="nav-dialer" class="tab-btn active w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 bg-blue-600 text-white shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-phone w-5 text-center"></i> <span>5-Line Dialer</span>
+                </button>
+                <button onclick="switchTab('contacts')" id="nav-contacts" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-address-book w-5 text-center"></i> <span>Leads & Queue</span>
+                </button>
+                <button onclick="switchTab('scripts')" id="nav-scripts" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-file-lines w-5 text-center"></i> <span>Ashley Script</span>
+                </button>
+                <button onclick="switchTab('transfer')" id="nav-transfer" class="tab-btn w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-400 hover:bg-slate-700/50 hover:text-slate-200">
+                    <i class="fa-solid fa-headset w-5 text-center"></i> <span>Transfer Settings</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer -->
+        <div class="pt-4 border-t border-slate-700">
+            <div class="flex items-center gap-2 px-3 py-2 bg-slate-900 rounded-lg border border-slate-700">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-xs text-slate-300 font-medium">Agent: <strong>Ashley</strong></span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-8 bg-slate-950">
+
+        <!-- 5-LINE MANUAL DIALER TAB -->
+        <section id="tab-dialer" class="tab-panel space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-white">5-Line Parallel Dialer</h1>
+                    <p class="text-xs text-slate-400 mt-1">Select or paste 5 numbers below and trigger Ashley across all 5 lines simultaneously.</p>
+                </div>
+                <button onclick="loadNextFiveFromQueue()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold flex items-center gap-2 shadow-md transition">
+                    <i class="fa-solid fa-forward"></i> Auto-Fill Next 5 From Queue
+                </button>
+            </div>
+
+            <!-- Manual 5-Line Input Grid -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl space-y-5">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Active Batch Lines</h2>
+                    <button onclick="clearFields()" class="text-xs text-slate-400 hover:text-red-400 transition">
+                        <i class="fa-solid fa-trash-can mr-1"></i> Clear Slots
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Line 1</label>
+                        <input type="tel" id="num1" placeholder="+1..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Line 2</label>
+                        <input type="tel" id="num2" placeholder="+1..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Line 3</label>
+                        <input type="tel" id="num3" placeholder="+1..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Line 4</label>
+                        <input type="tel" id="num4" placeholder="+1..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono focus:border-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-400 mb-1">Line 5</label>
+                        <input type="tel" id="num5" placeholder="+1..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white font-mono focus:border-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="pt-2 flex justify-end">
+                    <button onclick="dialSelectedFive()" id="callBtn" class="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-xl text-white transition flex items-center gap-2 shadow-lg shadow-emerald-600/20">
+                        <i class="fa-solid fa-phone-flip"></i> Dispatch Ashley to These 5 Numbers
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Calls Monitor Console -->
+            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl space-y-4">
+                <h2 class="text-sm font-bold text-slate-300 uppercase tracking-wider">Live Line Monitor</h2>
+                <div id="statusList" class="space-y-2">
+                    <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-700/50 text-slate-500 text-sm italic">
+                        No calls currently dispatched. Load or type 5 numbers above and click "Dispatch Ashley".
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEADS & QUEUE TAB -->
+        <section id="tab-contacts" class="tab-panel hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-white">Leads Queue</h1>
+                    <p class="text-xs text-slate-400 mt-1"><span id="leadCountBadge">0</span> total leads in queue</p>
+                </div>
+                <div>
+                    <input type="file" id="leadFileInput" accept=".csv, .txt" class="hidden" onchange="handleLeadImport(event)">
+                    <button onclick="document.getElementById('leadFileInput').click()" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium flex items-center gap-2 shadow-md transition cursor-pointer">
+                        <i class="fa-solid fa-file-import"></i> Import Leads (CSV / TXT)
+                    </button>
+                </div>
+            </div>
+
+            <div id="leadImportStatus" class="hidden bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 p-4 rounded-xl text-sm flex items-center gap-2">
+                <i class="fa-solid fa-circle-check"></i> <span id="leadImportMessage">Leads imported successfully!</span>
+            </div>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden shadow-xl">
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="bg-slate-900 text-slate-400 text-xs uppercase border-b border-slate-700">
+                        <tr>
+                            <th class="p-4">#</th>
+                            <th class="p-4">Phone Number</th>
+                            <th class="p-4">Status</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadsTableBody" class="divide-y divide-slate-700">
+                        <tr>
+                            <td colspan="4" class="p-6 text-center text-slate-500 italic">
+                                No leads imported yet. Click "Import Leads" to upload your CSV or TXT list.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ASHLEY SCRIPT TAB -->
+        <section id="tab-scripts" class="tab-panel hidden space-y-6">
+            <h1 class="text-2xl font-bold text-white">Ashley's Interactive Call Script</h1>
+
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4 shadow-xl">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Intro Script (Spoken upon pick up)</label>
+                    <textarea id="scriptIntroText" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-blue-500 font-mono text-sm leading-relaxed" rows="4">Hello, this is Ashley. How are you doing today? I’m calling you to know if you knew about the email we sent you last night. Press one to continue. Press two to speak to our agent representative.</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Keypress Option 1 Response (Script Continuation)</label>
+                    <textarea id="scriptOption1Text" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-blue-500 font-mono text-sm leading-relaxed" rows="3">Great! The email contains our updated promotional options. If you'd like to proceed further or speak directly to a specialist, press two at any time.</textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Keypress Option 2 Response (Human Transfer Trigger)</label>
+                    <textarea id="scriptOption2Text" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-blue-500 font-mono text-sm leading-relaxed" rows="2" readonly>Transferring call immediately to human representative at 18763047407...</textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRANSFER SETTINGS TAB -->
+        <section id="tab-transfer" class="tab-panel hidden space-y-6">
+            <h1 class="text-2xl font-bold text-white">Transfer & Telephony Settings</h1>
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 max-w-2xl shadow-xl space-y-4">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Agent Name</label>
+                    <input type="text" value="Ashley" readonly class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Human Forwarding Phone Number (Option 2 Target)</label>
+                    <input type="text" id="transferPhoneNumber" value="18763047407" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-mono focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-1">Vapi API Key</label>
+                    <input type="password" id="vapiApiKey" placeholder="Paste your Vapi API key here..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white font-mono focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript Logic Engine -->
+    <script>
+        let leadsQueue = [];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/30');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activePanel = document.getElementById(`tab-${tabId}`);
+            if (activePanel) activePanel.classList.remove('hidden');
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-blue-600', 'text-white', 'shadow-lg', 'shadow-blue-500/30');
+                activeNav.classList.remove('text-slate-400');
+            }
+        }
+
+        function handleLeadImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const text = e.target.result;
+                const lines = text.split(/\r?\n/);
+                
+                leadsQueue = [];
+                lines.forEach(line => {
+                    const cleaned = line.replace(/[^0-9+]/g, '').trim();
+                    if (cleaned.length >= 7) {
+                        leadsQueue.push({ number: cleaned, status: 'Pending' });
+                    }
+                });
+
+                renderLeadsTable();
+                
+                const statusDiv = document.getElementById('leadImportStatus');
+                const messageSpan = document.getElementById('leadImportMessage');
+                messageSpan.textContent = `Successfully imported ${leadsQueue.length} leads from ${file.name}`;
+                statusDiv.classList.remove('hidden');
+                setTimeout(() => statusDiv.classList.add('hidden'), 5000);
+            };
+            reader.readAsText(file);
+        }
+
+        function renderLeadsTable() {
+            const tbody = document.getElementById('leadsTableBody');
+            document.getElementById('leadCountBadge').textContent = leadsQueue.length;
+
+            if (leadsQueue.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-500 italic">No leads in queue. Click "Import Leads" to upload your CSV or TXT list.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = leadsQueue.map((item, idx) => `
+                <tr class="hover:bg-slate-700/30 transition">
+                    <td class="p-4 text-slate-500 font-mono text-xs">${idx + 1}</td>
+                    <td class="p-4 font-mono font-semibold text-white">${item.number}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-medium ${item.status === 'Called' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-slate-700 text-slate-300'}">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="p-4 text-right">
+                        <button onclick="pickSingleLead('${item.number}')" class="px-2.5 py-1 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 rounded-lg text-xs font-semibold">
+                            Pick for Line
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadNextFiveFromQueue() {
+            const uncalled = leadsQueue.filter(item => item.status === 'Pending');
+            if (uncalled.length === 0) {
+                alert("No pending uncalled leads in your queue. Please import more leads first.");
+                return;
+            }
+
+            for (let i = 1; i <= 5; i++) {
+                const lead = uncalled[i - 1];
+                document.getElementById(`num${i}`).value = lead ? lead.number : '';
+            }
+
+            switchTab('dialer');
+        }
+
+        function pickSingleLead(phoneNumber) {
+            for (let i = 1; i <= 5; i++) {
+                const input = document.getElementById(`num${i}`);
+                if (!input.value.trim()) {
+                    input.value = phoneNumber;
+                    switchTab('dialer');
+                    return;
+                }
+            }
+            alert("All 5 line slots are currently full. Clear a slot or click 'Clear Slots' to add this number.");
+        }
+
+        function clearFields() {
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`num${i}`).value = '';
+            }
+        }
+
+        async function dialSelectedFive() {
+            const numbers = [];
+            for (let i = 1; i <= 5; i++) {
+                const val = document.getElementById(`num${i}`).value.trim();
+                if (val) numbers.push({ slot: i, number: val });
+            }
+
+            if (numbers.length === 0) {
+                alert("Please enter or load at least one phone number into the line slots.");
+                return;
+            }
+
+            const statusList = document.getElementById('statusList');
+            statusList.innerHTML = '';
+
+            numbers.forEach(item => {
+                statusList.innerHTML += `
+                    <div id="line-${item.slot}" class="p-3 bg-slate-900 rounded-xl border border-slate-700 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">${item.slot}</span>
+                            <span class="font-mono text-slate-200">${item.number}</span>
+                        </div>
+                        <span class="text-xs text-amber-400 font-semibold animate-pulse">
+                            <i class="fa-solid fa-spinner fa-spin mr-1"></i> Dialing Ashley...
+                        </span>
+                    </div>
+                `;
+            });
+
+            const callPromises = numbers.map(item => simulateAshleyCall(item.slot, item.number));
+            await Promise.all(callPromises);
+
+            alert("Selected 5-line batch execution complete!");
+        }
+
+        function simulateAshleyCall(slot, phoneNumber) {
+            return new Promise((resolve) => {
+                // Update queue status matching this number
+                const queueItem = leadsQueue.find(l => l.number === phoneNumber);
+                if (queueItem) queueItem.status = 'Called';
+                renderLeadsTable();
+
+                setTimeout(() => {
+                    const lineEl = document.getElementById(`line-${slot}`);
+                    if (lineEl) {
+                        lineEl.querySelector('span:last-child').className = "text-xs text-emerald-400 font-semibold";
+                        lineEl.querySelector('span:last-child').innerHTML = `<i class="fa-solid fa-phone-volume mr-1"></i> Connected (Ashley Speaking)`;
+                    }
+                }, 2000);
+
+                setTimeout(() => {
+                    const lineEl = document.getElementById(`line-${slot}`);
+                    if (lineEl) {
+                        lineEl.querySelector('span:last-child').className = "text-xs text-slate-500 font-semibold";
+                        lineEl.querySelector('span:last-child').innerHTML = `<i class="fa-solid fa-check mr-1"></i> Call Completed`;
+                    }
+                    resolve();
+                }, 10000);
+            });
+        }
+    </script>
+</body>
+</html>
